@@ -1,0 +1,32 @@
+title: "Weekly report: DD/MM/YYYY"
+labels: ["Reports"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Writing meeting minutes is compulsory.
+        - Be concise, but provide enough detail for clarity.
+        - Remember to change the title to include the meeting's date!
+        - You can use markdown to structure your minutes, link reports, enter code, etc.
+  - type: textarea
+    id: thisweek
+    attributes:
+      label: This week
+      description: |
+        Describe what you have done this last week. Don't be restricted to achievements and progress. Studying, reading papers and getting stuck at things are expected activities and should be listed and described accordingly. If you got stuck, explain what you have tried and how you attempted to progress. Match your description against what you had planned last week for this one.
+      value: |
+        (Delete this and add your report here. Use Markdown if needed.)
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: nextweek
+    attributes:
+      label: Next week
+      description: |
+        Describe what you intend to do next week. If you have questions, you can ask them here too.
+      value: |
+        (Delete this and add your report here. Use Markdown if needed.)
+      render: markdown
+    validations:
+      required: true

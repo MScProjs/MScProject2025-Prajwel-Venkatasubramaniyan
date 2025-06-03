@@ -1,0 +1,40 @@
+title: "Meeting date: DD/MM/YYYY"
+labels: ["Meeting minutes"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Writing meeting minutes is compulsory.
+        - Be concise, but provide enough detail for clarity.
+        - Remember to change the title to include the meeting's date!
+  - type: input
+    id: participants
+    attributes:
+      label: Participants
+      description: Include the participants in the meeting.
+    validations:
+      required: true
+  - type: textarea
+    id: minutes
+    attributes:
+      label: Meeting minutes
+      description: |
+        Describe what was discussed, decisions made, and list of pending actions.
+        You can use markdown to structure your minutes, link reports, enter code, etc.
+      value: |
+        (example structure)
+        
+        ### Discussion Points
+        - Topic 1: Summary...
+        - Topic 2: Summary...
+
+        ### Decisions Made
+        - Decision 1
+        - Decision 2
+
+        ### Action Items
+        - Task 1 – Assigned to X
+        - Task 2 – Assigned to Y
+      render: markdown
+    validations:
+      required: true
