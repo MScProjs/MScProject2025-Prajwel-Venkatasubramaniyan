@@ -1,33 +1,28 @@
-library(CAISEr)
 algorithms <- mapply(FUN = function(i, m, s){
-                            list(FUN   = "dummyalgo",
-                                 alias = paste0("algo", i),
-                                 distribution.fun  = "rnorm",
-                                 distribution.pars = list(mean = m, sd = s))},
-                       i = c(alg1 = 1, alg2 = 2, alg3 = 3, alg4 = 4, alg5 = 5),
-                       m = c(15, 10, 30, 15, 20),
-                       s = c(2, 4, 6, 8, 10),
-                       SIMPLIFY = FALSE)
+    list(FUN   = "dummyalgo",
+         alias = paste0("algo", i),
+         distribution.fun  = "rnorm",
+         distribution.pars = list(mean = m, sd = s))},
+    i = c(alg1 = 1, alg2 = 2, alg3 = 3, alg4 = 4),
+    m = c(15, 10, 30, 15),
+    s = c(2, 4, 6, 8),
+    SIMPLIFY = FALSE)
 
-# Make a dummy instance with a centered (zero-mean) exponential distribution:
-instance = list(FUN = "dummyinstance", distr = "rexp", rate = 5, bias = -1/5)
+# plot(my.results)Generate 100 dummy instances with centered exponential distributions
+instances <- lapply(1:100,
+                      function(i) {rate <- runif(1, 1, 10)
+                                   list(FUN   = "dummyinstance",
+                                        alias = paste0("Inst.", i),
+                                        distr = "rexp", rate = rate,
+                                        bias  = -1 / rate)})
 
-# Explicitate all other parameters (just this one time:
-# most have reasonable default values)
-myreps <- calc_nreps(instance   = instance,
-                        algorithms = algorithms,
-                        se.max     = 0.05,          # desired (max) standard error
-                        dif        = "perc",        # type of difference
-                        comparisons = "all.vs.all", # differences to consider
-                        method     = "param",       # method ("param", "boot")
-                        nstart     = 15,            # initial number of samples
-                        nmax       = 1000,          # maximum allowed sample size
-                        seed       = 1234,          # seed for PRNG
-                        boot.R     = 499,           # number of bootstrap resamples (unused)
-                        ncpus      = 1,             # number of cores to use
-                        force.balanced = FALSE,     # force balanced sampling?
-                        load.folder   = NA,         # file to load results from
-                        save.folder = NA)         # folder to save results
-summary(myreps)
-plot(myreps)
-  
+my.results <- run_experiment(instances, algorithms,
+                               d = .5, se.max = .1,
+                               power = .9, sig.level = .05,
+                               power.target = "mean",
+                               dif = "perc", comparisons = "all.vs.all",
+                               ncpus = 1, seed = 1234)
+
+# Take a look at the results
+summary(my.results)
+plot(my.results)
