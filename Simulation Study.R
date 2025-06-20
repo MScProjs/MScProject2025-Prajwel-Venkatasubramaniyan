@@ -1,3 +1,4 @@
+library(CAISEr)
 algorithms <- mapply(FUN = function(i, m, s){
                             list(FUN   = "dummyalgo",
                                  alias = paste0("algo", i),
