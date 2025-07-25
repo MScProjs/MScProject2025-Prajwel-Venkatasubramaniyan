@@ -1,0 +1,60 @@
+# Load libraries
+library(dplyr)
+library(caret)
+library(randomForest)
+library(readr)
+
+# Load data
+data <- read_csv("Alphavirus.csv")
+
+# View structure
+str(data)
+
+# Identify group column (assumed last column for now)
+group_col <- names(data)[ncol(data)]
+cat("Grouping by column:", group_col, "\n")
+
+# Group split
+grouped_data <- data %>% group_split(!!sym(group_col))
+
+# Initialize results list
+results <- list()
+
+# Loop through each group
+for (i in seq_along(grouped_data)) {
+  group <- grouped_data[[i]]
+  group_name <- unique(group[[group_col]])
+  
+  cat("\nProcessing group:", group_name, "\n")
+  
+  # Preprocess: Normalize numeric features
+  features <- group %>% select(-all_of(group_col))
+  target <- group[[group_col]]
+  
+  preproc <- preProcess(features, method = c("center", "scale"))
+  processed_features <- predict(preproc, features)
+  
+  df_processed <- processed_features
+  df_processed$target <- target
+  
+  # Train-test split
+  set.seed(123)
+  train_idx <- createDataPartition(df_processed$target, p = 0.8, list = FALSE)
+  train_data <- df_processed[train_idx, ]
+  test_data  <- df_processed[-train_idx, ]
+  
+  # Fit model (Random Forest)
+  model <- randomForest(target ~ ., data = train_data)
+  
+  # Predict & evaluate
+  preds <- predict(model, test_data)
+  acc <- mean(preds == test_data$target)
+  
+  cat("Accuracy for", group_name, ":", round(acc, 4), "\n")
+  
+  # Save results
+  results[[as.character(group_name)]] <- list(
+    model = model,
+    accuracy = acc
+  )
+}
