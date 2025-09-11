@@ -13,6 +13,7 @@ There are many ways to install the package and use but here is the easiest one f
 Some precautions:
 1. Please do not use library(CAISEr) to avoid any overlap.
 2. Please call manually these libraries.
+   
 library(caret)
 library(e1071)
 library(randomForest)
