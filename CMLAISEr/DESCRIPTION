@@ -1,0 +1,12 @@
+Package: CMLAISEr
+Type: Package
+Title: Sample size estimation for performance comparison of Machine Learning algorithms
+Version: 0.1.0
+Author: Prajwel Venkatasubramaniyan
+Maintainer: The package maintainer <prajwel16@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
